@@ -8,7 +8,7 @@ const store = configureStore({
     navigation: navigationReducer,
     products: productsReducer,
     selectedProduct: selectedProductReducer,
-  },
+  }, 
 });
 
-export default store;
+export default store; 
