@@ -1,65 +1,73 @@
-// src/screens/Screen2.js
 import React from 'react';
-import { View, Text, StyleSheet ,Image} from 'react-native';
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectProducts } from '../redux/productsSlice';
+import { setSelectedProduct } from '../redux/selectedProductSlice';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Screen2() {
+  const products = useSelector(selectProducts);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const handlePress = (item) => {
+    dispatch(setSelectedProduct(item)); 
+    navigation.navigate('Screen3');
+  };
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.productContainer} onPress={() => handlePress(item)}>
+      <Image style={styles.productImage} source={item.image} />
+      <Text style={styles.productName}>{item.name}</Text>
+      <Text style={styles.productPrice}>${item.price}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
-      <Text style={{color:'red',fontWeight:'bold'}}>The world best bike</Text>
-      <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-        <View style={{width:70,borderWidth:1,borderColor:'red',alignItems:'center',margin:10}}>
-          <Text style={{color:'red'}}>All</Text>
-        </View>
-        <View style={{width:70,borderWidth:1,borderColor:'red',alignItems:'center',margin:10}}>
-          <Text style={{color:'red'}}>RoadBike</Text>
-        </View>
-        <View style={{width:70,borderWidth:1,borderColor:'red',alignItems:'center',margin:10}}>
-          <Text style={{color:'red'}}>Mountain</Text>
-        </View>
-      </View>
-      <View style={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>
-        <View style={{backgroundColor:'pink',paddingLeft:25,paddingRight:25, borderRadius:10}}>
-          <Image style={{ width: 100, height: 100 }} source={require('../assets/xexanh.png')} />
-          <Text style={{alignSelf:'center'}}>Pinaredo</Text>
-          <Text style={{alignSelf:'center'}}>$1800</Text>
-        </View>
-        <View style={{backgroundColor:'pink',paddingLeft:25,paddingRight:25, borderRadius:10}}>
-          <Image style={{ width: 100, height: 100 }} source={require('../assets/xedo.png')} />
-          <Text style={{alignSelf:'center'}}>Pina Motai</Text>
-          <Text style={{alignSelf:'center'}}>$1700</Text>
-        </View>
-      </View>
-      <View style={{display:'flex',flexDirection:'row',justifyContent:'space-around',marginTop:15}}>
-        <View style={{backgroundColor:'pink',paddingLeft:25,paddingRight:25, borderRadius:10}}>
-          <Image style={{ width: 100, height: 100 }} source={require('../assets/daptim.png')} />
-          <Text style={{alignSelf:'center'}}>Pinaredo</Text>
-          <Text style={{alignSelf:'center'}}>$1800</Text>
-        </View>
-        <View style={{backgroundColor:'pink',paddingLeft:25,paddingRight:25, borderRadius:10}}>
-          <Image style={{ width: 100, height: 100 }} source={require('../assets/dapdo.png')} />
-          <Text style={{alignSelf:'center'}}>Pina Motai</Text>
-          <Text style={{alignSelf:'center'}}>$1700</Text>
-        </View>
-      </View>
-      <View style={{display:'flex',flexDirection:'row',justifyContent:'space-around',marginTop:15}}>
-        <View style={{backgroundColor:'pink',paddingLeft:25,paddingRight:25, borderRadius:10}}>
-          <Image style={{ width: 100, height: 100 }} source={require('../assets/daptim.png')} />
-          <Text style={{alignSelf:'center'}}>Pinaredo</Text>
-          <Text style={{alignSelf:'center'}}>$1800</Text>
-        </View>
-        <View style={{backgroundColor:'pink',paddingLeft:25,paddingRight:25, borderRadius:10}}>
-          <Image style={{ width: 100, height: 100 }} source={require('../assets/xedo.png')} />
-          <Text style={{alignSelf:'center'}}>Pina Motai</Text>
-          <Text style={{alignSelf:'center'}}>$1700</Text>
-        </View>
-      </View>
-    </View> 
+      <Text style={styles.header}>The world's best bikes</Text>
+      <FlatList
+        data={products}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        contentContainerStyle={styles.listContainer}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
+  },
+  header: {
+    fontSize: 18,
+    color: 'red',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  listContainer: {
+    justifyContent: 'space-around',
+  },
+  productContainer: {
+    backgroundColor: 'pink',
+    padding: 5,
+    margin: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '45%',
+  },
+  productImage: {
+    width: 90,
+    height: 90,
+  },
+  productName: {
+    alignSelf: 'center',
+    marginTop: 5,
+  },
+  productPrice: {
+    alignSelf: 'center',
+    fontWeight: 'bold',
   },
 });

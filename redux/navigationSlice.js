@@ -5,7 +5,7 @@ const navigationSlice = createSlice({
   name: 'navigation',
   initialState: {
     screen: 'Screen1',
-  },
+  }, 
   reducers: {
     goToScreen2: (state) => {
       state.screen = 'Screen2';

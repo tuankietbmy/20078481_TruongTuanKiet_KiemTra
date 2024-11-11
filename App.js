@@ -1,13 +1,13 @@
 // src/App.js
-import React  from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity,Button } from 'react-native';
+import React from 'react';
 import { Provider, useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import store from './redux/Store';
 import Screen1 from './components/Screen1';
 import Screen2 from './components/Screen2';
-
+import Screen3 from './components/Screen3';
+ 
 const Stack = createStackNavigator();
 
 function MainNavigator() {
@@ -16,21 +16,31 @@ function MainNavigator() {
   return (
     <Stack.Navigator>
       {currentScreen === 'Screen1' ? (
-        <Stack.Screen 
-          name="Screen1" 
+        <Stack.Screen
+          name="Screen1"
           component={Screen1}
           options={{
-            headerLeft: () => null, // No back button for the first screen
+            title: 'Home',
+            headerLeft: () => null,
           }}
         />
       ) : (
-        <Stack.Screen 
-          name="Screen2" 
-          component={Screen2}
-          options={{
-          
-          }}
-        />
+        <>
+          <Stack.Screen
+            name="Screen2"
+            component={Screen2}
+            options={{
+              title: 'Product List',
+            }}
+          />
+          <Stack.Screen
+            name="Screen3"
+            component={Screen3}
+            options={{
+              title: 'Product Details',
+            }}
+          />
+        </>
       )}
     </Stack.Navigator>
   );
