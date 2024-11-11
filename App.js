@@ -1,24 +1,47 @@
-import { Text, SafeAreaView, StyleSheet } from 'react-native';
-
-// You can import supported modules from npm
-import { Card } from 'react-native-paper';
-
-// or any files within the Snack
+// src/App.js
+import React  from 'react';
+import { Text, View, StyleSheet, Image, TouchableOpacity,Button } from 'react-native';
+import { Provider, useSelector } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import store from './redux/Store';
 import Screen1 from './components/Screen1';
-export default function App() {
+import Screen2 from './components/Screen2';
+
+const Stack = createStackNavigator();
+
+function MainNavigator() {
+  const currentScreen = useSelector((state) => state.navigation.screen);
+
   return (
-    <SafeAreaView style={styles.container}>
-      <Card>
-        <Screen1 />
-      </Card>
-    </SafeAreaView>
+    <Stack.Navigator>
+      {currentScreen === 'Screen1' ? (
+        <Stack.Screen 
+          name="Screen1" 
+          component={Screen1}
+          options={{
+            headerLeft: () => null, // No back button for the first screen
+          }}
+        />
+      ) : (
+        <Stack.Screen 
+          name="Screen2" 
+          component={Screen2}
+          options={{
+          
+          }}
+        />
+      )}
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 8,
-  },
-
-});
+export default function App() {
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <MainNavigator />
+      </NavigationContainer>
+    </Provider>
+  );
+}
