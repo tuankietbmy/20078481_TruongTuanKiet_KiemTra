@@ -6,7 +6,7 @@ import { setSelectedProduct } from '../redux/selectedProductSlice';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Screen2() {
-  const products = useSelector(selectProducts);
+  const products = useSelector(selectProducts); 
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
